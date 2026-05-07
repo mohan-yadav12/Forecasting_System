@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+saved_models/
+venv/
+.env
+.ipynb_checkpoints/
+*.pkl
+model_comparison.csv
