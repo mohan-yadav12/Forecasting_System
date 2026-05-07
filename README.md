@@ -63,7 +63,7 @@ python train.py
 Once the models are trained, start the FastAPI production server:
 
 ```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn app.main:app --reload 
 ```
 
 ## 🔌 API Usage
@@ -95,18 +95,18 @@ Generates an 8-week recursive forecast for the specified state. It dynamically l
 ```json
 {
   "state": "California",
-  "selected_best_model": "Prophet",
+  "selected_best_model": "LightGBM",
   "api_serving_model": "XGBoost",
   "forecast_horizon_weeks": 8,
   "next_8_weeks_forecast": [
-    450123.0,
-    460200.0,
-    470350.0,
-    465100.0,
-    480000.0,
-    485200.0,
-    490000.0,
-    495000.0
+    827200064,
+    829007488,
+    830200512,
+    830200512,
+    830200512,
+    830200512,
+    830200512,
+    830200512
   ]
 }
 ```
