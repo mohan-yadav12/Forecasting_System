@@ -18,6 +18,7 @@ def load_data(path):
         .astype(float)
     )
 
+
     df = df.dropna(subset=["Date", "State", "Total"])
     df = df.sort_values(["State", "Date"])
 
