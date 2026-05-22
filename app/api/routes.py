@@ -8,18 +8,12 @@ from app.services.preprocessing import load_data
 from app.services.feature_engineering import create_features
 
 router = APIRouter()
-
-
 class ForecastRequest(BaseModel):
     state: str
 
-
 @router.get("/health")
 def health_check():
-    return {
-        "status": "running"
-    }
-
+    return {"status": "running"}
 
 @router.post("/forecast")
 def forecast(req: ForecastRequest):
@@ -27,16 +21,9 @@ def forecast(req: ForecastRequest):
 
     # Step 1: Load model comparison file
     comparison_df = pd.read_csv("model_comparison.csv")
-
-    row = comparison_df[
-        comparison_df["state"].str.lower() == state_name.lower()
-    ]
-
+    row = comparison_df[comparison_df["state"].str.lower() == state_name.lower()]
     if row.empty:
-        return {
-            "error": f"State '{state_name}' not found"
-        }
-
+        return {"error": f"State '{state_name}' not found"}
     best_model = row.iloc[0]["best_model"]
 
     # Step 2: Force XGBoost for real API prediction
@@ -44,29 +31,20 @@ def forecast(req: ForecastRequest):
     model_path = f"saved_models/{state_name}_xgboost.pkl"
 
     if not os.path.exists(model_path):
-        return {
-            "error": f"Saved model not found for {state_name}"
-        }
+        return {"error": f"Saved model not found for {state_name}"}
 
     model = joblib.load(model_path)
 
     # Step 3: Load original dataset
     df = load_data("data/sales.csv")
 
-    state_df = df[
-        df["State"].str.lower() == state_name.lower()
-    ].copy()
-
+    state_df = df[df["State"].str.lower() == state_name.lower()].copy()
     if state_df.empty:
-        return {
-            "error": f"No data found for {state_name}"
-        }
+        return {"error": f"No data found for {state_name}"}
 
     # Step 4: Feature Engineering
     state_df = create_features(state_df)
-
     latest_row = state_df.iloc[-1:].copy()
-
     feature_columns = [
         "lag_1",
         "lag_2",

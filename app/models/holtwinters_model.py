@@ -16,9 +16,7 @@ def train_holtwinters(df, validation_weeks=8):
     )
 
     fitted_model = model.fit()
-
     predictions = fitted_model.forecast(validation_weeks)
-
     score = evaluate(valid.values, predictions.values)
 
     return fitted_model, score
